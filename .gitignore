@@ -1,0 +1,6 @@
+
+*.ihx
+*.hex
+*.lst
+*.asm
+code/.vscode/settings.json

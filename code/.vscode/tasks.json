@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: 組建",
+			"command": "build",
+			"targets": [
+				"[N/A - 選取套件]"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "CMake 範本 組建 工作"
+		}
+	]
+}

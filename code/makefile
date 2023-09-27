@@ -1,14 +1,33 @@
-all : Dmeta.hex lab1.hex seg.hex clean 
+all : TEST0.hex clean 
 
-%.hex : %.c
-	sdcc $<
-	packihx $(basename $@).ihx > $@
+LIB = .\lib
+CC = sdcc
+
+INCLUDE = .\include
+SOURSE = .\sourse
+
+LIBMEMBER = seg7.rel ds1302.rel uart.rel
+
+
+
+%.hex : %.ihx
+	packihx $< > $@
+
+%.ihx : %.c DM.lib 
+	$(CC) $< -I $(INCLUDE) DM.lib
+
+%.rel : ..\$(SOURSE)\%.c ..\$(INCLUDE)\%.h
+	$(CC) -I$(INCLUDE) -c $< -o $@
+
+DM.lib : $(addprefix $(LIB)\, $(LIBMEMBER))
+	sdar -rc $@ $^
+	sdranlib DM.lib
 
 clean : 
-	rm *.ihx
 	rm *.lk
 	rm *.map
 	rm *.rel
 	rm *.rst
 	rm *.sym
 	rm *.mem
+	rm *.ihx

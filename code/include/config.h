@@ -5,6 +5,7 @@
 
 #define LED_PORT_N P0 
 #define LED_PORT_P P2
+#define IN14_PORT P0
 
 #define DS1302_SCK P1_0
 #define DS1302_SDA P1_1

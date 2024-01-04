@@ -6,7 +6,7 @@ CC = sdcc
 INCLUDE = .\include
 SOURSE = .\sourse
 
-LIBMEMBER = seg7.rel ds1302.rel uart.rel
+LIBMEMBER = seg7.rel ds1302.rel bluetooth.rel IN14.rel
 
 
 

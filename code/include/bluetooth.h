@@ -68,7 +68,8 @@ extern void uartISR(void) __interrupt (4);
 
 extern unsigned char  Serialread(void);
 
-
+extern void          SerialprintCHAR(unsigned char number);
+extern void          SerialprintBCD(unsigned char BCD);
 
 
 

@@ -6,7 +6,7 @@ CC = sdcc
 INCLUDE = .\include
 SOURSE = .\sourse
 
-LIBMEMBER = seg7.rel ds1302.rel bluetooth.rel IN14.rel
+LIBMEMBER = bluetooth.rel IN14.rel i2c.rel ds3231.rel
 
 
 
@@ -24,10 +24,10 @@ DM.lib : $(addprefix $(LIB)\, $(LIBMEMBER))
 	sdranlib DM.lib
 
 clean : 
-	rm *.lk
-	rm *.map
-	rm *.rel
-	rm *.rst
-	rm *.sym
-	rm *.mem
-	rm *.ihx
+	del *.lk
+	del *.map
+	del *.rel
+	del *.rst
+	del *.sym
+	del *.mem
+	del *.ihx

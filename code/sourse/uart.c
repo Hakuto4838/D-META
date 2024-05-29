@@ -28,6 +28,7 @@
 // Globals
 
 unsigned char count;
+unsigned char str_temp[5];
 
 #ifdef SERIAL_RX_INTERRUPT_ENABLE
 
@@ -116,21 +117,9 @@ return SBUF;
 **/
 void Serialprint(unsigned char *sPtr)
 {
-for(;*sPtr!='\0';Serialwrite(*(sPtr++)));
+    for(;*sPtr!='\0';Serialwrite(*(sPtr++)));   
 }
 
-
-/*** Function    : Serialprint
-**   Parameters  : unsigned char *
-**   Return      : None
-**   Description : It will send the string to UART
-**/
-void SerialIntWrite(signed int num)
-{
-char *tempBuffer;
-sprintf(tempBuffer,"%d",num);
-Serialprint((unsigned char*)tempBuffer);
-}
 
 
 #ifdef SERIAL_RX_INTERRUPT_ENABLE
@@ -153,19 +142,19 @@ void setSerialinterrupt(void)
 **/
 void Serialflush(void)
 {
-unsigned char i;
-uartReadCount    = 0;           // Clear Uart Byte Count
-uartNewLineFlag  = 0;           // Clear New Line Flag
-uartNewLineCount = 0;           // Clear New Line Count
-uartReadByte     = CHAR_NULL;   // Clear Last Read Byte
+    unsigned char i;
+    uartReadCount    = 0;           // Clear Uart Byte Count
+    uartNewLineFlag  = 0;           // Clear New Line Flag
+    uartNewLineCount = 0;           // Clear New Line Count
+    uartReadByte     = CHAR_NULL;   // Clear Last Read Byte
 
-// Flush New Line Index Buffer
-for(i=0;i<=NEW_LINE_INDEX_BUFFER_SIZE;i++)
-uartNewLineIndexes[i] = CHAR_NULL;
+    // Flush New Line Index Buffer
+    for(i=0;i<=NEW_LINE_INDEX_BUFFER_SIZE;i++)
+    uartNewLineIndexes[i] = CHAR_NULL;
 
-// Flush Uart Read Buffer
-for(i=0;i<=UART_RX_BUFFER_SIZE;i++)
-uartReadBuffer[i] = CHAR_NULL;
+    // Flush Uart Read Buffer
+    for(i=0;i<=UART_RX_BUFFER_SIZE;i++)
+    uartReadBuffer[i] = CHAR_NULL;
 }
 
 /*** Function    : SerialReadByteFlush
@@ -175,7 +164,7 @@ uartReadBuffer[i] = CHAR_NULL;
 **/
 void SerialReadByteFlush(void)
 {
-uartReadByte     = CHAR_NULL;   // Clear Last Read Byte
+    uartReadByte     = CHAR_NULL;   // Clear Last Read Byte
 }
 
 /*** Function    : uartISR
@@ -187,20 +176,40 @@ void uartISR(void) __interrupt (4) __using (2)
 {
     count++;
     if(count == 100)count = 0;
-EA = 0;                                      // Disable Global Interrupt Flag
-RI = 0;                                      // Clear RI flag
-uartReadByte = SBUF;                         // Read Byte from SBUF
-uartReadBuffer[uartReadCount++] = uartReadByte;
-if(uartReadByte == LF)
-{
-uartNewLineIndexes[uartNewLineCount] = uartReadCount;
-uartNewLineCount++;
-uartNewLineFlag = 1;
-}
-EA = 1;                                     // Everything is done , Now Enable the Global Interrupt
+    EA = 0;                                      // Disable Global Interrupt Flag
+    RI = 0;                                      // Clear RI flag
+    uartReadByte = SBUF;                         // Read Byte from SBUF
+    uartReadBuffer[uartReadCount++] = uartReadByte;
+    if(uartReadByte == LF)
+    {
+        uartNewLineIndexes[uartNewLineCount] = uartReadCount;
+        uartNewLineCount++;
+        uartNewLineFlag = 1;
+    }
+    EA = 1;                                     // Everything is done , Now Enable the Global Interrupt
 }
 
+void SerialprintCHAR(char number){
+    unsigned char i=0;
+    if(number <0){
+        str_temp[i++] = '-';
+        number = (~number)+1;
+    }
+    if(number >= 100)
+        str_temp[i++] = '0'+ (number/100);
+    if(number >= 10)
+        str_temp[i++] = '0' + ((number/10)%10);
+    str_temp[i++] = number%10;
+    str_temp[i++] = '\0';
+    Serialprint(str_temp);
+}
 
+void SerialprintBCD(unsigned char BCD){
+    str_temp[0] = '0' + (BCD>>4);
+    str_temp[1] = '0' + (BCD&0x0F);
+    str_temp[2] = '\0';
+    Serialprint(str_temp);
+}
 #endif
 
 

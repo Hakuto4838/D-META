@@ -40,14 +40,14 @@ typedef struct __DS1302_DATETIME
 uint8_t ds1302_to_bcd(uint8_t value);
 uint8_t ds1302_from_bcd(uint8_t bcd);
 
-uint8_t ds1302_read();
+uint8_t ds1302_read(void);
 void ds1302_write(uint8_t data);
 uint8_t ds1302_read_register(uint8_t addr);
 void ds1302_write_register(uint8_t addr, uint8_t data);
 void ds1302_get_datetime(DS1302_DATETIME *datetime);
 void ds1302_set_datetime(DS1302_DATETIME *datetime);
 
-void ds1302_halt();
-void ds1302_start();
+void ds1302_halt(void);
+void ds1302_start(void);
 
 #endif // __DS1302_H__

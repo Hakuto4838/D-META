@@ -113,6 +113,8 @@ extern void          uartISR(void) __interrupt (4);
 extern void          setSerialinterrupt(void);
 extern void          Serialflush(void);
 
+extern void          SerialprintCHAR(unsigned char number);
+extern void          SerialprintBCD(unsigned char BCD);
 
 extern volatile __bit          uartNewLineFlag;
 extern volatile unsigned char          uartReadByte;

@@ -5,6 +5,7 @@ volatile __bit                  uartNewLineFlag;
 volatile unsigned char  uartReadBuffer[UART_RX_BUFFER_SIZE];
 volatile unsigned char  uartReadCount;
 volatile unsigned char  uartReadByte;
+volatile unsigned char  str_temp[5];
 
 void Serialbegin_value(unsigned char autoReloadvalue)
 {
@@ -47,4 +48,26 @@ void uartISR(void) __interrupt (4) __using (2){
     if(uartReadByte == LF)
         uartNewLineFlag = 1;
     EA = 1;                                     // Everything is done , Now Enable the Global Interrupt
+}
+
+void SerialprintCHAR(char number){
+    unsigned char i=0;
+    if(number&0x80){
+        str_temp[i++] = '-';
+        number = (~number)+1;
+    }
+    if(number >= 100)
+        str_temp[i++] = '0'+ (number/100);
+    if(number >= 10)
+        str_temp[i++] = '0' + ((number/10)%10);
+    str_temp[i++] = '0' + number%10;  
+    str_temp[i++] = '\0';
+    Serialprint(str_temp);
+}
+
+void SerialprintBCD(unsigned char BCD){
+    str_temp[0] = '0' + (BCD>>4);
+    str_temp[1] = '0' + (BCD&0x0F);
+    str_temp[2] = '\0';
+    Serialprint(str_temp);
 }

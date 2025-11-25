@@ -5,7 +5,7 @@
 #include "i2c.h"
 
 UCHAR second,minute,hour,day,date,month,year;
-UCHAR temHIGH, temLOW;
+UCHAR temHIGH, temLOW, aging;
 
 void SetPtr_ds3231(UCHAR address){
     Start_I2C();
@@ -42,7 +42,8 @@ void Write_to_ds3231(UCHAR address, UCHAR value){
     Stop_I2C();
 }
 
-void read_time(void){
+void read_time(void) __using (2){
+    EA = 0;
     SetPtr_ds3231(addr_second);
 
     Start_I2C();
@@ -51,6 +52,7 @@ void read_time(void){
     minute = Read_I2C();    send_ACK();
     hour = Read_I2C();
     Stop_I2C();
+    EA = 1;
 }
 
 void read_date(void){
@@ -87,4 +89,15 @@ void read_temperature(void){
     temHIGH = Read_I2C();    send_ACK();
     temLOW = Read_I2C();     Stop_I2C();
     temLOW = temLOW>>6;
+}
+
+void read_aging(void){
+    SetPtr_ds3231(addr_aging);
+
+    Start_I2C();
+    Write_I2C(DS3231_Read);
+    Read_Ack();
+
+    aging = Read_I2C();     Stop_I2C();
+
 }

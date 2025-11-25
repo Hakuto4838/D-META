@@ -100,7 +100,6 @@ extern unsigned char Serialavailable(void);
 extern void           Serialwrite(unsigned char);
 extern void           Serialprint(unsigned char *);
 extern unsigned char  Serialread(void);
-extern void           SerialIntWrite(signed int);
 extern void           SetOsc(unsigned long);
 
 

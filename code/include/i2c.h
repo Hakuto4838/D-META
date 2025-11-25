@@ -10,3 +10,4 @@ extern unsigned char Read_I2C(void);
 extern void Read_Ack(void);
 extern void Send_NACK(void);
 extern void send_ACK(void);
+extern void wait(unsigned char byte);

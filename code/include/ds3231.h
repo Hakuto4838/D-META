@@ -21,18 +21,19 @@
 #define addr_temperature         0x11
 
 extern UCHAR second,minute,hour,day,date,month,year;
-extern UCHAR temHIGH, temLOW;
+extern UCHAR temHIGH, temLOW, aging;
 
 extern void SetPtr_ds3231(UCHAR address);
 extern UCHAR Read_ds3231(UCHAR address);
 extern void Write_to_ds3231(UCHAR address, UCHAR value);
 
 
-extern void read_time(void);
+extern void read_time(void) __using (2);
 extern void read_date(void);
 extern void write_time(void);
 extern void write_date(void);
 extern void read_temperature(void);
+extern void read_aging(void);
 
 
 #endif //__DS3231_H__

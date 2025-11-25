@@ -70,3 +70,11 @@ void send_ACK(void){
     SCL = 0;
     SDA = 1;
 }
+
+void wait(unsigned char byte){
+    while((byte--)!=0){
+        for(UCHAR i=0; i<255; i++){
+            for(UCHAR j=0; j<255; j++);
+        }
+    }
+}

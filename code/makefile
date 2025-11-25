@@ -6,7 +6,7 @@ CC = sdcc
 INCLUDE = .\include
 SOURSE = .\sourse
 
-LIBMEMBER = bluetooth.rel IN14.rel i2c.rel ds3231.rel
+LIBMEMBER = bluetooth.rel IN14.rel i2c.rel ds3231.rel rand.rel
 
 
 
